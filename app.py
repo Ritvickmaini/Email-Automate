@@ -24,16 +24,12 @@ SCOPE = [
 
 @st.cache_resource
 def get_google_sheet():
-    import base64
-    import json
     import gspread
     from google.oauth2.service_account import Credentials
 
-    service_account_info = json.loads(
-        base64.b64decode(os.environ["GOOGLE_CREDS_B64"]).decode("utf-8")
-    )
-    credentials = Credentials.from_service_account_info(
-        service_account_info,
+    credentials_path = "/etc/secrets/service_account.json"  # Path to secret file in Render
+    credentials = Credentials.from_service_account_file(
+        credentials_path,
         scopes=SCOPE
     )
 
@@ -46,7 +42,7 @@ def get_google_sheet():
         sheet.insert_row(["timestamp", "campaign_name", "subject", "total", "delivered", "failed"], 1)
 
     return sheet
-    
+
 def append_to_sheet(data_dict):
     sheet = get_google_sheet()
     if sheet:
