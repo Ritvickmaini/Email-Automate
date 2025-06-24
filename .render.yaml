@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: email-campaign-app
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: streamlit run app.py --server.port $PORT
+    plan: starter  # Change this if needed: starter | standard | pro | etc.
+
+    envVars:
+      - key: STREAMLIT_SERVER_HEADLESS
+        value: "true"
+      - key: STREAMLIT_SERVER_ENABLECORS
+        value: "false"
+
+    secretFiles:
+      - path: /etc/secrets/service_account.json
+        envVarName: GOOGLE_SERVICE_FILE
