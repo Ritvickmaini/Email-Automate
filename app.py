@@ -127,7 +127,7 @@ def generate_email_html(full_name, recipient_email=None, subject=None, custom_ht
           <td bgcolor="#D7262F" style="border-radius: 6px; text-align: center;">
             <a href="{tracking_link}" target="_blank"
                style="font-size: 15px; font-family: Arial, sans-serif; color: #ffffff; text-decoration: none; padding: 16px 28px; display: inline-block; font-weight: bold; border-radius: 6px;">
-              🎟️ Book My £2 Ticket Now
+              🎟️ Book My £5 Ticket Now
             </a>
           </td>
         </tr>
