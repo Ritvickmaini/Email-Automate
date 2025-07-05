@@ -92,7 +92,7 @@ def generate_email_html(full_name, recipient_email=None, subject=None, custom_ht
     import urllib.parse
 
     # Tracking elements
-    event_url = "https://www.eventbrite.com/e/bournemouth-b2b-growth-expo-2025-book-your-visitor-ticket-at-premier-expo-tickets-874424486177?aff=EmailCampaigns"
+    event_url = "https://www.eventbrite.co.uk/e/isle-of-man-b2b-growth-expo-2025-book-your-visitor-ticket-at-premier-show-tickets-690175141427?aff=EmailCampaigns"
     encoded_event_url = urllib.parse.quote(event_url, safe='')
     email_for_tracking = recipient_email if recipient_email else "unknown@example.com"
     encoded_subject = urllib.parse.quote(subject or "No Subject", safe='')
@@ -139,9 +139,9 @@ def generate_email_html(full_name, recipient_email=None, subject=None, custom_ht
 
                     <!-- Signature (Locked) -->
                     <p style="margin-top:25px; font-size:14px;">
-                      Mark Randell<br/>
+                      Mike Randell<br/>
                       Marketing Executive | B2B Growth Expo<br/>
-                      <a href="mailto:mark@bournemouthexpo.com" style="color:#D7262F;">mark@bournemouthexpo.com</a><br/>
+                      <a href="mailto:mike@isleofmanexpo.com" style="color:#D7262F;">mike@isleofmanexpo.com</a><br/>
                       (+44) 03303 209 609
                     </p>
 
@@ -161,7 +161,7 @@ def generate_email_html(full_name, recipient_email=None, subject=None, custom_ht
     """
 def send_email(sender_email, sender_password, row, subject, custom_html):
     try:
-        server = smtplib.SMTP("mail.bournemouthexpo.com", 587)
+        server = smtplib.SMTP("mail.isleofmanexpo.com", 587)
         server.starttls()
         server.login(sender_email, sender_password)
 
@@ -174,7 +174,7 @@ def send_email(sender_email, sender_password, row, subject, custom_html):
         server.send_message(msg)
 
         try:
-            imap = imaplib.IMAP4_SSL("mail.bournemouthexpo.com")
+            imap = imaplib.IMAP4_SSL("mail.isleofmanexpo.com")
             imap.login(sender_email, sender_password)
             imap.append('INBOX.Sent', '', imaplib.Time2Internaldate(time.time()), msg.as_bytes())
             imap.logout()
@@ -197,7 +197,7 @@ def send_delivery_report(sender_email, sender_password, report_file):
         with open(report_file, 'rb') as file:
             msg.add_attachment(file.read(), maintype='application', subtype='octet-stream', filename=os.path.basename(report_file))
 
-        server = smtplib.SMTP("mail.bournemouthexpo.com", 587)
+        server = smtplib.SMTP("mail.isleofmanexpo.com", 587)
         server.starttls()
         server.login(sender_email, sender_password)
         server.send_message(msg)
@@ -218,7 +218,7 @@ with st.expander("📜 View Past Campaigns"):
         st.markdown(f"**{label}** | 👥 {c['total']} | ✅ {c['delivered']} | ❌ {c['failed']}")
 
 st.header("📤 Send Email Campaign")
-sender_email = st.text_input("Sender Email", value="mark@bournemouthexpo.com")
+sender_email = st.text_input("Sender Email", value="mike@isleofmanexpo.com")
 sender_password = st.text_input("Password", type="password")
 subject = st.text_input("Email Subject")
 default_html = """<p>Hi <strong>{name}</strong>,</p>
