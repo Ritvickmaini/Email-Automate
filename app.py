@@ -92,7 +92,7 @@ def generate_email_html(full_name, recipient_email=None, subject=None, custom_ht
     import urllib.parse
 
     # Tracking elements
-    event_url = "https://www.eventbrite.co.uk/e/isle-of-man-b2b-growth-expo-2025-book-your-visitor-ticket-at-premier-show-tickets-690175141427?aff=EmailCampaigns"
+    event_url = "https://IsleofManB2BGrowthExpo09Oct2025InvestmentPitchFest.eventbrite.co.uk/?aff=EmailCampaign"
     encoded_event_url = urllib.parse.quote(event_url, safe='')
     email_for_tracking = recipient_email if recipient_email else "unknown@example.com"
     encoded_subject = urllib.parse.quote(subject or "No Subject", safe='')
@@ -127,7 +127,7 @@ def generate_email_html(full_name, recipient_email=None, subject=None, custom_ht
           <td bgcolor="#D7262F" style="border-radius: 6px; text-align: center;">
             <a href="{tracking_link}" target="_blank"
                style="font-size: 15px; font-family: Arial, sans-serif; color: #ffffff; text-decoration: none; padding: 16px 28px; display: inline-block; font-weight: bold; border-radius: 6px;">
-              🎟️ Book My £5 Ticket Now
+              🎟️ Book My Ticket Now
             </a>
           </td>
         </tr>
