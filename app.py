@@ -142,7 +142,7 @@ def generate_email_html(full_name, recipient_email=None, subject=None, custom_ht
                       Mike Randell<br/>
                       Marketing Executive | B2B Growth Expo<br/>
                       <a href="mailto:mike@isleofmanexpo.com" style="color:#D7262F;">mike@isleofmanexpo.com</a><br/>
-                      (+44) 03303 209 609
+                      (+44) 2034517166
                     </p>
 
                     <!-- Footer (Locked) -->
