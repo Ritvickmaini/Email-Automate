@@ -239,33 +239,8 @@ campaign_name = st.text_input("Campaign Name", placeholder="e.g. MK Expo – VIP
 file = st.file_uploader("Upload CSV with `email`, `full name` columns")
 
 st.subheader("📧 Preview of Email:")
+st.components.v1.html(generate_email_html("Sarah Johnson", subject=subject, custom_html=custom_html), height=600, scrolling=True)
 
-st.components.v1.html(
-    f"""
-    <html>
-    <head>
-        <script>
-            function resizeIframe() {{
-                var iframe = window.frameElement;
-                if (iframe) {{
-                    iframe.style.height = document.body.scrollHeight + "px";
-                }}
-            }}
-            window.onload = resizeIframe;
-        </script>
-    </head>
-    <body style="margin: 0; padding: 0;">
-        <div style="display: flex; justify-content: center;">
-            <div style="width: 720px; max-width: 720px;">
-                {generate_email_html("Sarah Johnson", subject=subject, custom_html=custom_html)}
-            </div>
-        </div>
-    </body>
-    </html>
-    """,
-    height=200,  # Initial low height — JS will resize automatically
-    scrolling=False
-)
 resume_data = None
 resume_choice = False
 latest_resume = None
