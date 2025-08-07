@@ -27,7 +27,7 @@ def get_google_sheet():
     import gspread
     from google.oauth2.service_account import Credentials
 
-    credentials_path = "/etc/secrets/service_account.json"  # Path to secret file in Render
+    credentials_path = "service_account.json"  # Path to secret file in Render
     credentials = Credentials.from_service_account_file(
         credentials_path,
         scopes=SCOPE
@@ -242,16 +242,30 @@ st.subheader("📧 Preview of Email:")
 
 st.components.v1.html(
     f"""
-    <div style="display: flex; justify-content: center; align-items: center; padding: 20px; background-color: #111;">
-      <div style="width: 100%; max-width: 720px; box-shadow: 0 4px 14px rgba(0,0,0,0.1); border-radius: 10px; overflow: hidden;">
-        {generate_email_html("Sarah Johnson", subject=subject, custom_html=custom_html)}
-      </div>
-    </div>
+    <html>
+    <head>
+        <script>
+            function resizeIframe() {{
+                var iframe = window.frameElement;
+                if (iframe) {{
+                    iframe.style.height = document.body.scrollHeight + "px";
+                }}
+            }}
+            window.onload = resizeIframe;
+        </script>
+    </head>
+    <body style="margin: 0; padding: 0;">
+        <div style="display: flex; justify-content: center;">
+            <div style="width: 720px; max-width: 720px;">
+                {generate_email_html("Sarah Johnson", subject=subject, custom_html=custom_html)}
+            </div>
+        </div>
+    </body>
+    </html>
     """,
-    height=720,
-    scrolling=True
+    height=200,  # Initial low height — JS will resize automatically
+    scrolling=False
 )
-
 resume_data = None
 resume_choice = False
 latest_resume = None
