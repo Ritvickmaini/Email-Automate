@@ -239,7 +239,18 @@ campaign_name = st.text_input("Campaign Name", placeholder="e.g. MK Expo – VIP
 file = st.file_uploader("Upload CSV with `email`, `full name` columns")
 
 st.subheader("📧 Preview of Email:")
-st.components.v1.html(generate_email_html("Sarah Johnson", subject=subject, custom_html=custom_html), height=600, scrolling=True)
+
+st.components.v1.html(
+    f"""
+    <div style="display: flex; justify-content: center; align-items: center; padding: 20px; background-color: #111;">
+      <div style="width: 100%; max-width: 720px; box-shadow: 0 4px 14px rgba(0,0,0,0.1); border-radius: 10px; overflow: hidden;">
+        {generate_email_html("Sarah Johnson", subject=subject, custom_html=custom_html)}
+      </div>
+    </div>
+    """,
+    height=720,
+    scrolling=True
+)
 
 resume_data = None
 resume_choice = False
