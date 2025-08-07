@@ -92,7 +92,7 @@ def generate_email_html(full_name, recipient_email=None, subject=None, custom_ht
     import urllib.parse
 
     # Tracking elements
-    event_url = "https://IsleofManB2BGrowthExpo09Oct2025InvestmentPitchFest.eventbrite.co.uk/?aff=EmailCampaign"
+    event_url = "https://teams.live.com/l/message/19:uni01_7sei4yyozpcrqbb5qtfjfamldv6gwhjf5alwcgyf7ytnltubcliq@thread.v2/1754304526424?context=%7B%22contextType%22%3A%22chat%22%7D"
     encoded_event_url = urllib.parse.quote(event_url, safe='')
     email_for_tracking = recipient_email if recipient_email else "unknown@example.com"
     encoded_subject = urllib.parse.quote(subject or "No Subject", safe='')
@@ -141,7 +141,7 @@ def generate_email_html(full_name, recipient_email=None, subject=None, custom_ht
                     <p style="margin-top:25px; font-size:14px;">
                       Mike Randell<br/>
                       Marketing Executive | B2B Growth Expo<br/>
-                      <a href="mailto:mike@isleofmanexpo.com" style="color:#D7262F;">mike@isleofmanexpo.com</a><br/>
+                      <a href="mailto:mike@cardiffbusinessexpo.com" style="color:#D7262F;">mike@cardiffbusinessexpo.com</a><br/>
                       (+44) 2034517166
                     </p>
 
@@ -161,7 +161,7 @@ def generate_email_html(full_name, recipient_email=None, subject=None, custom_ht
     """
 def send_email(sender_email, sender_password, row, subject, custom_html):
     try:
-        server = smtplib.SMTP("mail.isleofmanexpo.com", 587)
+        server = smtplib.SMTP("mail.cardiffbusinessexpo.com", 587)
         server.starttls()
         server.login(sender_email, sender_password)
 
@@ -197,7 +197,7 @@ def send_delivery_report(sender_email, sender_password, report_file):
         with open(report_file, 'rb') as file:
             msg.add_attachment(file.read(), maintype='application', subtype='octet-stream', filename=os.path.basename(report_file))
 
-        server = smtplib.SMTP("mail.isleofmanexpo.com", 587)
+        server = smtplib.SMTP("mail.cardiffbusinessexpo.com", 587)
         server.starttls()
         server.login(sender_email, sender_password)
         server.send_message(msg)
@@ -218,7 +218,7 @@ with st.expander("📜 View Past Campaigns"):
         st.markdown(f"**{label}** | 👥 {c['total']} | ✅ {c['delivered']} | ❌ {c['failed']}")
 
 st.header("📤 Send Email Campaign")
-sender_email = st.text_input("Sender Email", value="mike@isleofmanexpo.com")
+sender_email = st.text_input("Sender Email", value="mike@cardiffbusinessexpo.com")
 sender_password = st.text_input("Password", type="password")
 subject = st.text_input("Email Subject")
 default_html = """<p>Hi <strong>{name}</strong>,</p>
