@@ -48,13 +48,6 @@ def append_to_sheet(data_dict):
     if sheet:
         sheet.append_row(list(data_dict.values()), value_input_option="USER_ENTERED")
 
-def load_campaigns_from_sheet():
-    sheet = get_google_sheet()
-    if not sheet:
-        return []
-    records = sheet.get_all_records()
-    return records
-
 # --- Uptime Check ---
 params = st.query_params
 if "ping" in params:
@@ -66,9 +59,6 @@ os.makedirs("campaign_results", exist_ok=True)
 os.makedirs("campaign_resume", exist_ok=True)
 
 # Functions
-def load_campaigns():
-    return load_campaigns_from_sheet()
-
 def log_campaign(metadata):
     with open("campaigns.json", "w") as f:
         json.dump(load_campaigns_from_sheet() + [metadata], f, indent=2)
@@ -210,12 +200,12 @@ def send_delivery_report(sender_email, sender_password, report_file):
 # --- UI Starts Here ---
 st.title("📨 Automated Email Campaign Manager")
 
-with st.expander("📜 View Past Campaigns"):
-    for c in reversed(load_campaigns()):
-        name = c.get("campaign_name", "")
-        timestamp = c.get("timestamp", "")
-        label = f"📧 {name} {timestamp}" if name else f"🕒 {timestamp}"
-        st.markdown(f"**{label}** | 👥 {c['total']} | ✅ {c['delivered']} | ❌ {c['failed']}")
+#with st.expander("📜 View Past Campaigns"):
+   # for c in reversed(load_campaigns()):
+       # name = c.get("campaign_name", "")
+       # timestamp = c.get("timestamp", "")
+      #  label = f"📧 {name} {timestamp}" if name else f"🕒 {timestamp}"
+        #st.markdown(f"**{label}** | 👥 {c['total']} | ✅ {c['delivered']} | ❌ {c['failed']}")
 
 st.header("📤 Send Email Campaign")
 sender_email = st.text_input("Sender Email", value="mike@cardiffbusinessexpo.com")
