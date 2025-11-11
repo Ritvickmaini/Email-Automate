@@ -128,16 +128,17 @@ def generate_email_html(full_name, recipient_email=None, subject=None, custom_ht
 </table>
 
 
-                    <!-- Signature (Locked) -->
-                    <p style="margin-top:25px; font-size:14px;">
-                      Mike Randell<br/>
-                      Marketing Executive | BRS Team
-                      3–4 March 2026<br/>
-                      London Olympia<br/>
-                      www.businessrevivalseries.com<br/>
-                      <a href="mailto:mike@businessrevivalseries.com" style="color:#D7262F;">mike@businessrevivalseries.com</a><br/>
-                      (+44) 2034517166
-                    </p>
+<!-- Signature (Locked) -->
+<p style="margin-top:25px; font-size:14px; font-weight:bold;">
+  Mike Randell<br/>
+  Marketing Executive | BRS Team<br/>
+  3–4 March 2026 | London Olympia<br/>
+  <a href="https://www.businessrevivalseries.com" style="color:#000; font-weight:bold; text-decoration:none;">www.businessrevivalseries.com</a><br/>
+  <a href="mailto:mike@businessrevivalseries.com" style="color:#D7262F; font-weight:bold;">mike@businessrevivalseries.com</a><br/>
+  (+44) 2034517166
+</p>
+
+
 
                     <!-- Footer (Locked) -->
                     <p style="font-size:11px; color:#888; text-align:center; margin-top:30px;">
