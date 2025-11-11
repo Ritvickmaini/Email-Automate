@@ -131,7 +131,10 @@ def generate_email_html(full_name, recipient_email=None, subject=None, custom_ht
                     <!-- Signature (Locked) -->
                     <p style="margin-top:25px; font-size:14px;">
                       Mike Randell<br/>
-                      Marketing Executive | B2B Growth Expo<br/>
+                      Marketing Executive | BRS Team
+                      3–4 March 2026  
+                      London Olympia  
+                      www.businessrevivalseries.com<br/>
                       <a href="mailto:mike@businessrevivalseries.com" style="color:#D7262F;">mike@businessrevivalseries.com</a><br/>
                       (+44) 2034517166
                     </p>
