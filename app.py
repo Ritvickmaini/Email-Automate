@@ -132,8 +132,8 @@ def generate_email_html(full_name, recipient_email=None, subject=None, custom_ht
                     <p style="margin-top:25px; font-size:14px;">
                       Mike Randell<br/>
                       Marketing Executive | BRS Team
-                      3–4 March 2026  
-                      London Olympia  
+                      3–4 March 2026<br/>
+                      London Olympia<br/>
                       www.businessrevivalseries.com<br/>
                       <a href="mailto:mike@businessrevivalseries.com" style="color:#D7262F;">mike@businessrevivalseries.com</a><br/>
                       (+44) 2034517166
