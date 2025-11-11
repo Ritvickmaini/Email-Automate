@@ -60,9 +60,10 @@ os.makedirs("campaign_resume", exist_ok=True)
 
 # Functions
 def log_campaign(metadata):
-    with open("campaigns.json", "w") as f:
-        json.dump(load_campaigns_from_sheet() + [metadata], f, indent=2)
-    append_to_sheet(metadata)
+    #with open("campaigns.json", "w") as f:
+        #json.dump(load_campaigns_from_sheet() + [metadata], f, indent=2)
+    #append_to_sheet(metadata)
+    pass
 
 def save_resume_point(timestamp, data, last_sent_index):
     with open(f"campaign_resume/{timestamp}.json", "w") as f:
