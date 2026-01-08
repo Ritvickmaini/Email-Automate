@@ -83,7 +83,7 @@ def generate_email_html(full_name, recipient_email=None, subject=None, custom_ht
     import urllib.parse
 
     # Tracking elements
-    event_url = "https://www.eventbrite.com/e/1664812923269"
+    event_url = "https://www.eventbrite.com/e/corporate-wellbeing-expo-2026-book-your-visitor-ticket-at-premier-show-tickets-1320080178349?aff=oddtdtcreator"
     encoded_event_url = urllib.parse.quote(event_url, safe='')
     email_for_tracking = recipient_email if recipient_email else "unknown@example.com"
     encoded_subject = urllib.parse.quote(subject or "No Subject", safe='')
@@ -130,11 +130,10 @@ def generate_email_html(full_name, recipient_email=None, subject=None, custom_ht
 
 <!-- Signature (Locked) -->
 <p style="margin-top:25px; font-size:14px; font-weight:bold;">
-  Mike Randell<br/>
-  Marketing Executive | BRS Team<br/>
+  Andrew<br/>
+  Sales Director<br/>
   3–4 March 2026 | London Olympia<br/>
-  <a href="https://www.businessrevivalseries.com" style="color:#000; font-weight:bold; text-decoration:none;">www.businessrevivalseries.com</a><br/>
-  <a href="mailto:mike@businessrevivalseries.com" style="color:#D7262F; font-weight:bold;">mike@businessrevivalseries.com</a><br/>
+  <a href="mailto:andrew@corporatewellbeingexpo.com" style="color:#D7262F; font-weight:bold;">andrew@corporatewellbeingexpo.com</a><br/>
   (+44) 2034517166
 </p>
 
@@ -156,7 +155,7 @@ def generate_email_html(full_name, recipient_email=None, subject=None, custom_ht
     """
 def send_email(sender_email, sender_password, row, subject, custom_html):
     try:
-        server = smtplib.SMTP("mail.businessrevivalseries.com", 587)
+        server = smtplib.SMTP("mail.corporatewellbeingexpo.com", 587)
         server.starttls()
         server.login(sender_email, sender_password)
 
@@ -169,7 +168,7 @@ def send_email(sender_email, sender_password, row, subject, custom_html):
         server.send_message(msg)
 
         try:
-            imap = imaplib.IMAP4_SSL("mail.businessrevivalseries.com")
+            imap = imaplib.IMAP4_SSL("mail.corporatewellbeingexpo.com")
             imap.login(sender_email, sender_password)
             imap.append('INBOX.Sent', '', imaplib.Time2Internaldate(time.time()), msg.as_bytes())
             imap.logout()
@@ -192,7 +191,7 @@ def send_delivery_report(sender_email, sender_password, report_file):
         with open(report_file, 'rb') as file:
             msg.add_attachment(file.read(), maintype='application', subtype='octet-stream', filename=os.path.basename(report_file))
 
-        server = smtplib.SMTP("mail.businessrevivalseries.com", 587)
+        server = smtplib.SMTP("mail.corporatewellbeingexpo.com", 587)
         server.starttls()
         server.login(sender_email, sender_password)
         server.send_message(msg)
@@ -213,7 +212,7 @@ st.title("📨 Automated Email Campaign Manager")
         #st.markdown(f"**{label}** | 👥 {c['total']} | ✅ {c['delivered']} | ❌ {c['failed']}")
 
 st.header("📤 Send Email Campaign")
-sender_email = st.text_input("Sender Email", value="mike@businessrevivalseries.com")
+sender_email = st.text_input("Sender Email", value="andrew@corporatewellbeingexpo.com")
 sender_password = st.text_input("Password", type="password")
 subject = st.text_input("Email Subject")
 default_html = """<p>Hi <strong>{name}</strong>,</p>
