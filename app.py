@@ -156,7 +156,9 @@ def generate_email_html(full_name, recipient_email=None, subject=None, custom_ht
 def send_email(sender_email, sender_password, row, subject, custom_html):
     try:
         server = smtplib.SMTP("mail.corporatewellbeingexpo.com", 587)
+        server.ehlo()
         server.starttls()
+        server.ehlo()
         server.login(sender_email, sender_password)
 
         msg = EmailMessage()
@@ -168,7 +170,8 @@ def send_email(sender_email, sender_password, row, subject, custom_html):
         server.send_message(msg)
 
         try:
-            imap = imaplib.IMAP4_SSL("mail.corporatewellbeingexpo.com")
+            imap = imaplib.IMAP4_SSL("mail.corporatewellbeingexpo.com",143)
+            imap.starttls()
             imap.login(sender_email, sender_password)
             imap.append('INBOX.Sent', '', imaplib.Time2Internaldate(time.time()), msg.as_bytes())
             imap.logout()
