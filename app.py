@@ -6,31 +6,8 @@ from email.message import EmailMessage
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
 import urllib.parse
-from google.oauth2.service_account import Credentials
-import gspread
 
 st.set_page_config("📧 Email Campaign App", layout="wide")
-
-# --- Google Sheet Setup ---
-SHEET_NAME = "CampaignHistory"
-SCOPE = [
-    "https://www.googleapis.com/auth/spreadsheets",
-    "https://www.googleapis.com/auth/drive"
-]
-
-@st.cache_resource
-def get_google_sheet():
-    credentials = Credentials.from_service_account_file(
-        "service_account.json",
-        scopes=SCOPE
-    )
-    gc = gspread.authorize(credentials)
-    sheet = gc.open(SHEET_NAME).sheet1
-    if not sheet.row_values(1):
-        sheet.insert_row(
-            ["timestamp", "campaign_name", "subject", "total", "delivered", "failed"], 1
-        )
-    return sheet
 
 # --- Folders ---
 os.makedirs("campaign_results", exist_ok=True)
