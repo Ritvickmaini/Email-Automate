@@ -4,14 +4,10 @@ import pandas as pd
 import smtplib, os, json
 from email.message import EmailMessage
 from datetime import datetime
-import time
-import imaplib
 from concurrent.futures import ThreadPoolExecutor
-from time import perf_counter
 import urllib.parse
-import uuid
-import gspread
 from google.oauth2.service_account import Credentials
+import gspread
 
 st.set_page_config("📧 Email Campaign App", layout="wide")
 
@@ -24,16 +20,13 @@ SCOPE = [
 
 @st.cache_resource
 def get_google_sheet():
-    credentials_path = "service_account.json"
     credentials = Credentials.from_service_account_file(
-        credentials_path,
+        "service_account.json",
         scopes=SCOPE
     )
     gc = gspread.authorize(credentials)
     sheet = gc.open(SHEET_NAME).sheet1
-
-    headers = sheet.row_values(1)
-    if not headers:
+    if not sheet.row_values(1):
         sheet.insert_row(
             ["timestamp", "campaign_name", "subject", "total", "delivered", "failed"], 1
         )
@@ -41,22 +34,6 @@ def get_google_sheet():
 
 # --- Folders ---
 os.makedirs("campaign_results", exist_ok=True)
-os.makedirs("campaign_resume", exist_ok=True)
-
-# --- Resume helpers ---
-def save_resume_point(timestamp, data, last_sent_index):
-    with open(f"campaign_resume/{timestamp}.json", "w") as f:
-        json.dump({
-            "data": data,
-            "last_sent_index": last_sent_index
-        }, f)
-
-def load_resume_point(timestamp):
-    try:
-        with open(f"campaign_resume/{timestamp}.json") as f:
-            return json.load(f)
-    except:
-        return None
 
 # --- Email HTML Generator ---
 def generate_email_html(
@@ -95,7 +72,7 @@ def generate_email_html(
 
     <table width="100%" cellpadding="0" cellspacing="0">
       <tr>
-        <td align="center" style="padding:30px">
+        <td style="padding:30px">
           <table width="100%" style="max-width:700px;background:#fff;
             border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,.07)">
             <tr>
@@ -103,8 +80,8 @@ def generate_email_html(
 
                 {custom_html_rendered}
 
-                <!-- CTA -->
-                <table align="center" style="margin-top:30px">
+                <!-- LEFT ALIGNED CTA -->
+                <table style="margin-top:30px">
                   <tr>
                     <td bgcolor="#D7262F" style="border-radius:6px">
                       <a href="{tracking_link}" target="_blank"
@@ -117,7 +94,6 @@ def generate_email_html(
                   </tr>
                 </table>
 
-                <!-- Signature -->
                 <p style="margin-top:25px;font-weight:bold">
                   Andrew<br/>
                   Sales Director<br/>
@@ -127,8 +103,7 @@ def generate_email_html(
                   (+44) 2034517166
                 </p>
 
-                <p style="font-size:11px;color:#888;text-align:center;margin-top:30px">
-                  Not interested?
+                <p style="font-size:11px;color:#888;margin-top:30px">
                   <a href="{unsubscribe_link}" style="color:#D7262F">Unsubscribe</a>
                 </p>
 
@@ -171,6 +146,28 @@ def send_email(sender_email, sender_password, row, subject, custom_html, cta_tex
     except Exception as e:
         return (row["email"], f"❌ Failed: {e}")
 
+# --- Send Delivery Report ---
+def send_delivery_report(sender_email, sender_password, report_file):
+    msg = EmailMessage()
+    msg["Subject"] = "Delivery Report – Email Campaign"
+    msg["From"] = sender_email
+    msg["To"] = "b2bgrowthexpo@gmail.com"
+    msg.set_content("Attached is the delivery report for the email campaign.")
+
+    with open(report_file, "rb") as f:
+        msg.add_attachment(
+            f.read(),
+            maintype="application",
+            subtype="octet-stream",
+            filename=os.path.basename(report_file)
+        )
+
+    server = smtplib.SMTP("mail.corporatewellbeingexpo.com", 587)
+    server.starttls()
+    server.login(sender_email, sender_password)
+    server.send_message(msg)
+    server.quit()
+
 # --- UI ---
 st.title("📨 Automated Email Campaign Manager")
 
@@ -178,13 +175,9 @@ sender_email = st.text_input("Sender Email", value="andrew@corporatewellbeingexp
 sender_password = st.text_input("Password", type="password")
 subject = st.text_input("Email Subject")
 
-# CTA Controls
 st.subheader("🔘 CTA Button Settings")
 cta_text = st.text_input("Button Text", value="🎟️ Book My Ticket Now")
-cta_url = st.text_input(
-    "Button URL",
-    value="https://www.eventbrite.com/"
-)
+cta_url = st.text_input("Button URL", value="https://www.eventbrite.com/")
 
 from streamlit_quill import st_quill
 st.subheader("📝 Email Content")
@@ -212,31 +205,46 @@ if st.button("🚀 Start Campaign"):
     df.columns = df.columns.str.lower().str.strip()
     df.rename(columns={"full name": "full_name"}, inplace=True)
 
+    delivery_report = []
     delivered, failed = 0, 0
     progress = st.progress(0)
 
     with ThreadPoolExecutor(max_workers=20) as executor:
-        futures = []
-        for _, row in df.iterrows():
-            futures.append(
-                executor.submit(
-                    send_email,
-                    sender_email,
-                    sender_password,
-                    row,
-                    subject,
-                    custom_html,
-                    cta_text,
-                    cta_url
-                )
+        futures = [
+            executor.submit(
+                send_email,
+                sender_email,
+                sender_password,
+                row,
+                subject,
+                custom_html,
+                cta_text,
+                cta_url
             )
+            for _, row in df.iterrows()
+        ]
 
         for i, future in enumerate(futures):
-            _, result = future.result()
+            email, result = future.result()
+            delivery_report.append({"email": email, "status": result})
             delivered += "✅" in result
             failed += "❌" in result
             progress.progress((i + 1) / len(df))
 
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    report_df = pd.DataFrame(delivery_report)
+    report_file = f"campaign_results/report_{campaign_name}_{timestamp}.csv"
+    report_df.to_csv(report_file, index=False)
+
     st.success("✅ Campaign Completed")
     st.metric("Delivered", delivered)
     st.metric("Failed", failed)
+
+    st.download_button(
+        "📥 Download Delivery Report",
+        data=report_df.to_csv(index=False),
+        file_name=os.path.basename(report_file),
+        mime="text/csv"
+    )
+
+    send_delivery_report(sender_email, sender_password, report_file)
