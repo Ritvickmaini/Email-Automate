@@ -33,7 +33,9 @@ def generate_email_html(
     tracking_pixel = (
         f'<img src="https://tracking-enfw.onrender.com/track/open'
         f'?email={email_for_tracking}&subject={encoded_subject}" '
-        f'width="1" height="1" style="display:none!important;opacity:0;" alt="" />'
+        f'width="1" height="1" '
+        f'style="display:none!important;opacity:0;max-height:0;overflow:hidden;" '
+        f'alt="" />'
     )
 
     unsubscribe_link = (
