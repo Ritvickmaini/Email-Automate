@@ -76,14 +76,16 @@ def generate_email_html(
                 <p style="margin-top:25px;font-weight:bold">
                   Best Regards<br/>
                   Customer Success Team<br/>
+                  Corporate Wellbeing Expo</br>
                   (+44) 2034517166<br/>
                   3–4 March 2026 | London Olympia<br/>
+                  <br/>
                   On Behalf of<br/>
                   Andrew<br/>
                   Show Director<br/>
                   <a href="mailto:andrew@corporatewellbeingexpo.com"
                      style="color:#D7262F">andrew@corporatewellbeingexpo.com</a><br/>
-                  (+44) 2034517166
+                  
                 </p>
 
                 <p style="font-size:11px;color:#888;margin-top:30px">
