@@ -74,7 +74,7 @@ def generate_email_html(
                 </table>
 
                 <p style="margin-top:25px;font-weight:bold">
-                  Best Regards<br/>
+                  Regards<br/>
                   Customer Success Team<br/>
                   Corporate Wellbeing Expo</br>
                   (+44) 2034517166<br/>
