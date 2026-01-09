@@ -75,11 +75,11 @@ def generate_email_html(
 
                 <p style="margin-top:25px;font-weight:bold">
                   Best Regards<br/>
-                  Customer Success Team
-                  (+44) 2034517166
-                  3–4 March 2026 | London Olympia
-                  On Behalf of
-                  Andrew
+                  Customer Success Team<br/>
+                  (+44) 2034517166<br/>
+                  3–4 March 2026 | London Olympia<br/>
+                  On Behalf of<br/>
+                  Andrew<br/>
                   Show Director<br/>
                   <a href="mailto:andrew@corporatewellbeingexpo.com"
                      style="color:#D7262F">andrew@corporatewellbeingexpo.com</a><br/>
